@@ -18,7 +18,8 @@ public class GreetMessageController {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	@HystrixCommand(defaultFallback = "nothingFound")
+	//to test fallback utility functionality ,lets shut down Greet Server
+	@HystrixCommand(defaultFallback = "nothingFound",threadPoolKey = "greetThread")
 	@GetMapping("/greetme/{user}")
 	public String greetMe(@PathVariable String user) {
 		String url="http://greet-server/server/greet/"+user;
@@ -32,7 +33,7 @@ public class GreetMessageController {
 		return "{Mobile:Android}";	
 	}
 	
-	public String nothingFound() {
+	public String nothingFound(Throwable greetThread) {
 		return " Wait! Am not finding Anything Now!";
 	}
 
