@@ -9,3 +9,7 @@ http://localhost:8193/server/device-info
 
 Eureka Console:
 http://localhost:8761/
+
+Zuul Api gateway:For External microservices call by service name(hiding the port details and loadbalanced instance details)
+http://localhost:8194/actuator/
+http://localhost:8194/gateway/sleuth-client/client/greetme/{name}
