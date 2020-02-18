@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 @RestController
 @RequestMapping("/client")
 public class GreetMessageController {
@@ -16,6 +18,7 @@ public class GreetMessageController {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@HystrixCommand(defaultFallback = "nothingFound")
 	@GetMapping("/greetme/{user}")
 	public String greetMe(@PathVariable String user) {
 		String url="http://greet-server/server/greet/"+user;
@@ -26,11 +29,11 @@ public class GreetMessageController {
 	@GetMapping("/info")
 	public String getDeviceInfo() {
 		//logic
-		return "Mobile";
-		//String url="http://greet-server/server/greet/"+user;
-		//return restTemplate.getForObject(url, String.class);
+		return "{Mobile:Android}";	
 	}
 	
-	
+	public String nothingFound() {
+		return " Wait! Am not finding Anything Now!";
+	}
 
 }
